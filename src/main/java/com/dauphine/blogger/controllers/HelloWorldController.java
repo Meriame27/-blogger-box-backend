@@ -1,4 +1,4 @@
-package com.dauphine.blogger.controllers;
+/*package com.dauphine.blogger.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,3 +29,4 @@ public class HelloWorldController {
         return "Hello " + name;
     }
 }
+*/
