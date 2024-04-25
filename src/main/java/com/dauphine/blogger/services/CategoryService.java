@@ -10,7 +10,7 @@ public interface CategoryService {
     Category getByID(UUID id);
     Category create(String name);
     Category updateName(UUID id, String name);
-    UUID deleteById(UUID id);
+    boolean deleteById(UUID id);
 
 
 }

@@ -26,6 +26,9 @@ public class Category {
 
     }
 
+    public Category(String name) {
+    }
+
     public UUID getId() {
         return id;
     }

@@ -37,6 +37,13 @@ public class Post {
 
     }
 
+    public Post(UUID uuid, String myFirstPost, String category1) {
+    }
+
     public UUID getId() {
+    }
+
+    public UUID getCategoryId() {
+        return this.category.getId();
     }
 }
