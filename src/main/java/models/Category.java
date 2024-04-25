@@ -8,4 +8,10 @@ public class Category {
     public Category(UUID uuid) {
     }
 
+    public UUID getId() {
+        return null;
+    }
+
+    public void setName(String newName) {
+    }
 }

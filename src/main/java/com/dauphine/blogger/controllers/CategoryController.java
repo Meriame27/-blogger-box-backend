@@ -1,4 +1,5 @@
 package com.dauphine.blogger.controllers;
+import com.dauphine.blogger.services.CategoryService;
 import dto.CreationCategoryRequest;
 import dto.CreationPostRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,33 +17,30 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/v1/categories")
 public class CategoryController {
-    private final List<Category> temporaryCategories;
-
-    public CategoryController() {
-        temporaryCategories = new ArrayList<>();
-        temporaryCategories.add(new Category(UUID.randomUUID(), "my first category"));
-        temporaryCategories.add(new Category(UUID.randomUUID(), "my second category"));
-        temporaryCategories.add(new Category(UUID.randomUUID(), "my third category"));
-
+    private final CategoryService service;
+    public CategoryController(CategoryService service){
+        this.service = service;
     }
+
+
 @GetMapping
 @Operation(
         summary = "Retrieve all categories",
         description = ""
 )
     public List<Category> retrieveAllCategories(){
-        return temporaryCategories;
+        return service.getAll();
     }
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     @Operation(
             summary = "Retrieve a category by id",
             description = "Returns '{id}' by path variable"
     )
-    public String retrieveCategoryByID(
-            @Parameter(description = "ID of the cataegory")
+    public Category retrieveCategoryByID(
+            @Parameter(description = "ID of the category")
             @PathVariable UUID id
     ) {
-        return "Category " + id;
+        return service.getByID(id);
     }
 
     @PostMapping("")
@@ -50,27 +48,26 @@ public class CategoryController {
             summary = "Create a category",
             description = ""
     )
-    public String createCategory(@RequestBody CreationCategoryRequest category) {
-        return "Creating a new category";
+    public Category createCategory(@RequestBody String name) {
+        return service.create(name);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     @Operation(
             summary = "Update a category",
             description = ""
     )
-    public String updateCategory(@PathVariable UUID id, @RequestBody CreationCategoryRequest category) {
-        //TODO later...
-        return "Update the noun of the category.";
+    public Category updateCategory(@PathVariable UUID id, @RequestBody String name) {
+        return service.updateName(id,name);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     @Operation(
             summary = "Delete a category",
             description = ""
     )
-    public String deleteCategory(@PathVariable UUID id){
-        return "Delete a category";
+    public UUID deleteCategory(@PathVariable UUID id){
+        return service.deleteById(id);
 
     }
 
