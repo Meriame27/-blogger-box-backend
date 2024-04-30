@@ -1,66 +1,47 @@
 package com.dauphine.blogger.controllers;
 
+import com.dauphine.blogger.services.PostService;
 import dto.CreationPostRequest;
+import dto.UpdatePostRequest;
+import models.Post;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import models.Post;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 @RestController
-@RequestMapping("/v1/posts")
+@RequestMapping("v1/posts")
 public class PostController {
 
-    private final List<Post> temporaryPosts;
+    private final PostService postService;
 
-    public PostController() {
-        temporaryPosts = new ArrayList<>();
-        temporaryPosts.add(new Post("my first post"));
-        temporaryPosts.add(new Post("my second post"));
-        temporaryPosts.add(new Post("my third post"));
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
+    @GetMapping("")
+    public List<Post> getAllPosts(@RequestParam(required = false) String value){
+        return value == null || value.isBlank() ? postService.getAll() : postService.getAllByTitleOrContent(value) ;
+    }
+
+    @GetMapping("/{categoryId}")
+    public List<Post> getPostsByCategoryId(@PathVariable UUID categoryId){
+        return postService.getAllByCategoryId(categoryId);
     }
 
     @PostMapping("")
-    @Operation(
-            summary = "Create a post",
-            description = ""
-    )
-    public String createPost(@RequestBody CreationPostRequest post) {
-        return "Creating a new post";
+    public <CreatePostRequestBody> Post createPost(@RequestBody CreationPostRequest createPostRequestBody){
+        return postService.create(createPostRequestBody.getTitle(), createPostRequestBody.getContent(), createPostRequestBody.getCategoryId());
     }
 
-    @DeleteMapping("")
-    @Operation(
-            summary = "Delete a post",
-            description = ""
-    )
-    public String deletePost(){
-        return "Delete a post";
-
+    @PutMapping("/{id}")
+    public Post updatePost(@PathVariable UUID id, UpdatePostRequest updatePostRequestBody){
+        return postService.update(id, updatePostRequestBody.getTitle(), updatePostRequestBody.getContent());
     }
 
-    @GetMapping
-    @Operation(
-            summary = "Retrieve all posts ordered by creation date",
-            description = ""
-    )
-    public List<Post> retrieveAllPostsByDate(){
-        return temporaryPosts;
+    @DeleteMapping("/{id}")
+    public UUID deletePost(@PathVariable UUID id){
+        return postService.deleteById(id)?id:null;
     }
-    /*@GetMapping("")
-    @Operation(
-            summary = "Retrieve all posts per a category",
-            description = ""
-    )
-    public String retrieveAllPostsPerCategory(
-            //@Parameter(description = "")
-            //@PathVariable UUID id
-    ) {
-        return "post";
-    }
-*/
 }

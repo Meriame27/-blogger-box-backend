@@ -10,36 +10,35 @@ import java.util.UUID;
 @Entity
 @Table(name = "category")
 public class Category {
+
     @Id
     @Column(name = "id")
     private UUID id;
+
     @Column(name = "name")
     private String name;
-    public Category(UUID uuid, String name) {
-        this.id = id;
+
+    public Category(String name) {
+        this.id = UUID.randomUUID();
         this.name = name;
-    }
-    public Category(UUID uuid) {
     }
 
     public Category() {
-
-    }
-
-    public Category(String name) {
     }
 
     public UUID getId() {
         return id;
     }
-    public void setId(UUID id){
+
+    public void setId(UUID id) {
         this.id = id;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
 
-    public void setName(String newName) {
+    public void setName(String name) {
         this.name = name;
     }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+
 @Entity
 @Table(name = "post")
 public class Post {
@@ -12,6 +13,7 @@ public class Post {
     @Id
     @Column(name = "id")
     private UUID id;
+
     @Column(name = "title")
     private String title;
 
@@ -25,6 +27,9 @@ public class Post {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    public Post() {
+    }
+
     public Post(String title, String content, Category category) {
         this.id = UUID.randomUUID();
         this.title = title;
@@ -33,17 +38,43 @@ public class Post {
         this.category = category;
     }
 
-    public Post() {
-
-    }
-
-    public Post(UUID uuid, String myFirstPost, String category1) {
-    }
-
     public UUID getId() {
+        return id;
     }
 
-    public UUID getCategoryId() {
-        return this.category.getId();
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

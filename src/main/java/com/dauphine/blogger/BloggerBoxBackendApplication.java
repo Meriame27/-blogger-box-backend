@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
 @OpenAPIDefinition(
@@ -15,10 +16,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		)
 
 )
-public class BloggerBoxBackendApplication {
+@EntityScan("models")
 
+
+public class BloggerBoxBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BloggerBoxBackendApplication.class, args);
 	}
-
 }

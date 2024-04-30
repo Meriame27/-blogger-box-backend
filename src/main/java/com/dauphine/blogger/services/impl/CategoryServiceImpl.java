@@ -12,54 +12,45 @@ import java.util.UUID;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryRepository repository;
-    public CategoryServiceImpl(CategoryRepository repository){
-        this.repository = repository;
-    }
-    /*
-    private final List<Category> temporaryCategories;
+    private final CategoryRepository categoryRepository;
 
-    public CategoryServiceImpl(CategoryRepository repository) {
-        this.repository = repository;
-        temporaryCategories = new ArrayList<>();
-      temporaryCategories.add(new Category(UUID.randomUUID(), "my first category"));
-      temporaryCategories.add(new Category(UUID.randomUUID(), "my second category"));
-      temporaryCategories.add(new Category(UUID.randomUUID(), "my third category"));
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
-    */
-
 
     @Override
     public List<Category> getAll() {
-        return repository.findAll();
+        return categoryRepository.findAll();
     }
 
     @Override
-    public Category getByID(UUID id) {
-        return repository.findById(id)
-                .orElse(null);
+    public List<Category> getAllByName(String name) {
+        return categoryRepository.findByName(name);
+    }
+
+    public Category getById(UUID id) {
+        return categoryRepository.findById(id).orElse(null);
     }
 
     @Override
     public Category create(String name) {
         Category category = new Category(name);
-        return repository.save(category);
+        return categoryRepository.save(category);
     }
 
     @Override
-    public Category updateName(UUID id, String newName) {
-        Category category = getByID(id);
-        if (category ==null){
+    public Category updateName(UUID id, String name) {
+        Category category = getById(id);
+        if(category == null){
             return null;
         }
-        category.setName(newName);
-        return repository.save(category);
+        category.setName(name);
+        return categoryRepository.save(category);
     }
 
     @Override
     public boolean deleteById(UUID id) {
-        repository.deleteById(id);
+        categoryRepository.deleteById(id);
         return true;
     }
-
 }
